@@ -1,0 +1,15 @@
+plugins {
+    id 'com.android.library'
+}
+apply from: "../../ShareLib/gradle/android.gradle"
+apply from: "../../ShareLib/gradle/dependencies.gradle"
+
+dependencies {
+    implementation project(':lib_tools')
+
+    api files('libs/ijkplayer-java-111.aar')
+    api files('libs/ijkplayer-armv7a-111.aar')
+
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
+}

@@ -1,0 +1,10 @@
+rootProject.name = "MyKtv_Project"
+
+include ':lib_tools'
+project(':lib_tools').projectDir = new File('../../ShareLib/lib_tools/')
+
+include ':videoplayer'
+project(':videoplayer').projectDir = new File('../videoplayer/')
+
+include ':home'
+project(':home').projectDir = new File('../home/')

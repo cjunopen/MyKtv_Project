@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.application'
+}
+apply from: "../../ShareLib/gradle/android.gradle"
+apply from: "../../ShareLib/gradle/dependencies.gradle"
+
+android {
+    defaultConfig {
+        applicationId "com.cj.myktv.home"
+        versionCode 100
+        versionName "1.0.0"
+    }
+
+}
+
+dependencies {
+    implementation project(':lib_tools')
+}
