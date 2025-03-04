@@ -10,6 +10,7 @@ dependencies {
     api files('libs/ijkplayer-java-111.aar')
     api files('libs/ijkplayer-armv7a-111.aar')
 
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
+    api 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+    api 'xyz.doikki.android.dkplayer:videocache:3.3.7'
+    api 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
 }

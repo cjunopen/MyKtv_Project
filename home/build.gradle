@@ -9,10 +9,21 @@ android {
         applicationId "com.cj.myktv.home"
         versionCode 100
         versionName "1.0.0"
+
+        //as run的时候能把so打包进去
+        ndk{
+            abiFilters 'armeabi-v7a'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
 }
 
 dependencies {
     implementation project(':lib_tools')
+
+    implementation project(':videoplayer')
 }
