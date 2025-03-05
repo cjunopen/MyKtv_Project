@@ -8,3 +8,9 @@ project(':videoplayer').projectDir = new File('../videoplayer/')
 
 include ':home'
 project(':home').projectDir = new File('../home/')
+
+include ':lib_netapi'
+project(':lib_netapi').projectDir = new File('../lib_netapi/')
+
+include ':lib_business'
+project(':lib_business').projectDir = new File('../lib_business/')

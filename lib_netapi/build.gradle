@@ -1,0 +1,15 @@
+plugins {
+    id 'com.android.library'
+}
+apply from: "../../ShareLib/gradle/android.gradle"
+apply from: "../../ShareLib/gradle/dependencies.gradle"
+
+dependencies {
+    implementation project(':lib_tools')
+    implementation project(':lib_business')
+
+//retrofit2
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+}

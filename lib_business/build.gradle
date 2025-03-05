@@ -1,0 +1,10 @@
+plugins {
+    id 'com.android.library'
+}
+apply from: "../../ShareLib/gradle/android.gradle"
+apply from: "../../ShareLib/gradle/dependencies.gradle"
+
+dependencies {
+    implementation project(':lib_tools')
+
+}

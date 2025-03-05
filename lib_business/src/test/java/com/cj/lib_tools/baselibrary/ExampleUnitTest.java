@@ -1,4 +1,4 @@
-package com.cj.videoplayer;
+package com.cj.lib_tools.baselibrary;
 
 import org.junit.Test;
 
