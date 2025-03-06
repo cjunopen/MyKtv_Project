@@ -6,9 +6,13 @@ import com.cj.lib_tools.util.rxjava.RxjavaUtils;
 import com.cj.myktv.lib_business.DeviceUtils;
 import com.cj.myktv.lib_netapi.api.BaseApi;
 import com.cj.myktv.lib_netapi.datacenter.okhttp.OkhttpFactory;
+import com.cj.myktv.lib_netapi.datacenter.req.BaseReq;
 import com.cj.myktv.lib_netapi.datacenter.req.LoginReq;
+import com.cj.myktv.lib_netapi.datacenter.req.SongMediaUrlReq;
 import com.cj.myktv.lib_netapi.datacenter.resp.BaseResp;
 import com.cj.myktv.lib_netapi.datacenter.resp.LoginResp;
+import com.cj.myktv.lib_netapi.datacenter.resp.SongMediaUrlResp;
+import com.cj.myktv.lib_netapi.datacenter.resp.TokenResp;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
@@ -26,15 +30,42 @@ import retrofit2.http.POST;
 public class DataCenterApi extends BaseApi<DataCenterApi.IDataCenter> {
 
     private String mValidatecode = "";
+    private String mMediaUrlCheckCode;   //获取播放链时校验
 
     public interface IDataCenter{
-        @POST("/Services/Index")
+        @POST(".")
         @FormUrlEncoded
         Observable<LoginResp> login(@Field("body") String body);
 
-        @POST("/Services/Index")
+        @POST(".")
         @FormUrlEncoded
-        Observable<LoginResp> getSongMediaUrl(@Field("body") String body);
+        Observable<TokenResp> requestToken(@Field("body") String body);
+
+        @POST(".")
+        @FormUrlEncoded
+        Observable<SongMediaUrlResp> requestSongMediaUrl(@Field("body") String body);
+    }
+
+    /**
+     * 请求播放链
+     * @param songId
+     */
+    public void requestSongMediaUrl(int songId){
+        SongMediaUrlReq req = new SongMediaUrlReq();
+        req.setCmdid("sn_song_media_list");
+//        req.setUserid("8527534");
+        req.setCode(mMediaUrlCheckCode);
+        req.setSongid(StringUtils.format("%08d", songId));
+        req.setToken("");
+
+        getApi().requestSongMediaUrl(GsonUtils.toJson(req))
+                .compose(RxjavaUtils.obs_io_main())
+                .subscribe(new Consumer<SongMediaUrlResp>() {
+                    @Override
+                    public void accept(SongMediaUrlResp songMediaUrlResp) throws Throwable {
+                        checkResp(songMediaUrlResp);
+                    }
+                });
     }
 
     private void checkResp(BaseResp resp) throws Exception {
@@ -45,6 +76,23 @@ public class DataCenterApi extends BaseApi<DataCenterApi.IDataCenter> {
 
     public void init(){
         login();
+    }
+
+    private void requestToken(){
+        BaseReq req = new BaseReq();
+        req.setCmdid("au_get_token");
+        getApi().requestToken(GsonUtils.toJson(req))
+                .compose(RxjavaUtils.obs_io_main())
+                .subscribe(new Consumer<TokenResp>() {
+                    @Override
+                    public void accept(TokenResp resp) throws Throwable {
+                        checkResp(resp);
+
+                        mMediaUrlCheckCode = resp.getR();
+
+                        requestSongMediaUrl(14883);
+                    }
+                });
     }
 
     /**
@@ -61,12 +109,17 @@ public class DataCenterApi extends BaseApi<DataCenterApi.IDataCenter> {
                     @Override
                     public void accept(LoginResp loginResp) throws Throwable {
                         checkResp(loginResp);
+
+                        mValidatecode = loginResp.getValidatecode();
+
                         String serverIp = loginResp.getServerip();
                         if (!serverIp.endsWith("/")){
-                            serverIp = serverIp + '/';
+                            serverIp = serverIp + "/";
                         }
+
                         setBaseUrl(serverIp);
-                        mValidatecode = loginResp.getValidatecode();
+
+                        requestToken();
                     }
                 });
     }
@@ -84,7 +137,7 @@ public class DataCenterApi extends BaseApi<DataCenterApi.IDataCenter> {
     }
 
     public DataCenterApi() {
-        setBaseUrl("https://keigepro-daily.duochang.cc");
+        setBaseUrl("https://keigepro-daily.duochang.cc/Services/Index/");
     }
 
     public static DataCenterApi getInstance(){
