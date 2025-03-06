@@ -28,4 +28,6 @@ dependencies {
     implementation project(':videoplayer')
 
     implementation project(':lib_netapi')
+
+    implementation project(':lib_db')
 }

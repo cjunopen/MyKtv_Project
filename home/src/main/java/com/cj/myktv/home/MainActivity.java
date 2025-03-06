@@ -6,9 +6,13 @@ import androidx.viewbinding.ViewBinding;
 import android.os.Bundle;
 import android.view.View;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cj.lib_tools.util.PermissionUtils;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
+import com.cj.myktv.lib_db.KtvDbHelper;
+import com.cj.myktv.lib_db.database.TblSong;
+import com.cj.myktv.lib_db.database.TblSongDao;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 
@@ -30,6 +34,22 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        test();
+    }
+
+    private void test() {
+        KtvDbHelper.getInstance().getTblSongDao(new KtvDbHelper.IDao<TblSongDao>() {
+            @Override
+            public void onGetDao(TblSongDao tblSongDao) {
+                TblSong song = tblSongDao.queryBuilder().where(TblSongDao.Properties.Id.eq(2L)).unique();
+                Timber.i("song: " + GsonUtils.toJson(song));
+            }
+        });
     }
 
     /**
@@ -55,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
      * 初始化view
      */
     private void initView() {
-        mViewBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(mViewBinding.getRoot());
-
-        mViewBinding.player.setUrl("/sdcard/Download/00001752.ts");
-        StandardVideoController controller = new StandardVideoController(this);
-        controller.addDefaultControlComponent("标题", false);
-        mViewBinding.player.setVideoController(controller);
+//        mViewBinding = ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(mViewBinding.getRoot());
+//
+//        mViewBinding.player.setUrl("/sdcard/Download/00001752.ts");
+//        StandardVideoController controller = new StandardVideoController(this);
+//        controller.addDefaultControlComponent("标题", false);
+//        mViewBinding.player.setVideoController(controller);
     }
 }
