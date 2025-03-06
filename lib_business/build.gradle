@@ -7,4 +7,5 @@ apply from: "../../ShareLib/gradle/dependencies.gradle"
 dependencies {
     implementation project(':lib_tools')
 
+    implementation project(':lib_db')
 }

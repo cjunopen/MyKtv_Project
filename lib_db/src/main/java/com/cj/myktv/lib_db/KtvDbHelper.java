@@ -15,9 +15,9 @@ import org.greenrobot.greendao.database.Database;
  */
 public class KtvDbHelper {
 
-    public static String DB_PATH = PathUtils.getExternalAppDataPath() + "/files/databases/myktv.db";
-
     private DaoMaster.DevOpenHelper mDevOpenHelper;
+
+    private TblSongDao mTblSongDao;
 
     public KtvDbHelper() {
         mDevOpenHelper = new DaoMaster.DevOpenHelper(new GreenDaoContext(), "myktv.db");
@@ -36,12 +36,21 @@ public class KtvDbHelper {
     }
 
     public void getTblSongDao(IDao<TblSongDao> iDao){
-        Database db = mDevOpenHelper.getWritableDb();
-        DaoSession daoSession = new DaoMaster(db).newSession();
-        TblSongDao dao = daoSession.getTblSongDao();
-        if (iDao != null) {
-            iDao.onGetDao(dao);
+//        Database db = mDevOpenHelper.getWritableDb();
+//        DaoSession daoSession = new DaoMaster(db).newSession();
+//        TblSongDao dao = daoSession.getTblSongDao();
+//        if (iDao != null) {
+//            iDao.onGetDao(dao);
+//        }
+//        db.close();
+    }
+
+    public TblSongDao getTblSongDao(){
+        if (mTblSongDao == null) {
+            Database db = mDevOpenHelper.getWritableDb();
+            DaoSession daoSession = new DaoMaster(db).newSession();
+            mTblSongDao = daoSession.getTblSongDao();
         }
-        db.close();
+        return mTblSongDao;
     }
 }

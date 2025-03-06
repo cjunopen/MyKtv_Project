@@ -30,4 +30,6 @@ dependencies {
     implementation project(':lib_netapi')
 
     implementation project(':lib_db')
+
+    implementation project(path: ':lib_business')
 }

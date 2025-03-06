@@ -75,7 +75,7 @@ public class DataCenterApi extends BaseApi<DataCenterApi.IDataCenter> {
     }
 
     public void init(){
-        login();
+//        login();
     }
 
     private void requestToken(){
