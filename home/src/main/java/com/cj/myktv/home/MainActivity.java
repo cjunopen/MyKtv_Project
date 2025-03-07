@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
+        MvPresentation.getInstance().show();
+
     }
 
     @Override
@@ -78,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         mViewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mViewBinding.getRoot());
-//
-//        mViewBinding.player.setUrl("/sdcard/Download/00001752.ts");
-//        StandardVideoController controller = new StandardVideoController(this);
-//        controller.addDefaultControlComponent("标题", false);
-//        mViewBinding.player.setVideoController(controller);
 
         AsyncListUtil asyncListUtil = new SongAsycnListUtil(mViewBinding.songRv);
         SongAdapter songAdapter = new SongAdapter();
