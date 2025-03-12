@@ -2,14 +2,15 @@ package com.cj.myktv.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.AsyncListUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cj.lib_tools.util.PermissionUtils;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
+import com.cj.myktv.home.phantom.PhantomHelper;
 import com.cj.myktv.home.view.songlist.SongAdapter;
 import com.cj.myktv.home.view.songlist.SongAsycnListUtil;
 import com.cj.myktv.lib_db.KtvDbHelper;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mViewBinding;
 
+    private PhantomHelper mPhantomHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
-        MvPresentation.getInstance().show();
-
+        mPhantomHelper = new PhantomHelper(this);
+        mPhantomHelper.hidePhantom();
     }
 
     @Override
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        PermissionUtils.checkAlertDialogPermissions(this);
     }
 
     /**
@@ -87,5 +92,11 @@ public class MainActivity extends AppCompatActivity {
         mViewBinding.songRv.setAsyncListUtil(asyncListUtil);
         mViewBinding.songRv.setAdapter(songAdapter);
 
+        mViewBinding.btnMv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhantomHelper.showOrHidePhantom();
+            }
+        });
     }
 }
