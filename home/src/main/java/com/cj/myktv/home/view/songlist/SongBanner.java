@@ -1,10 +1,15 @@
 package com.cj.myktv.home.view.songlist;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
+import com.cj.lib_tools.util.ViewUtils;
 import com.cj.lib_tools.widget.GridBanner;
 import com.cj.myktv.home.R;
 import com.cj.myktv.lib_business.bean.Song;
@@ -15,6 +20,7 @@ import com.cj.myktv.lib_business.bean.Song;
  * @CreateDate: 2025/3/13 上午 10:50:52
  */
 public class SongBanner extends GridBanner<Song> {
+
     public SongBanner(Context context) {
         super(context);
     }
@@ -42,6 +48,7 @@ public class SongBanner extends GridBanner<Song> {
         return new IViewListener<Song>() {
             @Override
             public void bindData(View view, Song data) {
+                ViewUtils.setClickRippleAnim(view.findViewById(R.id.iv_bg));
                 TextView textView = view.findViewById(R.id.song_name);
                 textView.setText(data.getName());
             }
