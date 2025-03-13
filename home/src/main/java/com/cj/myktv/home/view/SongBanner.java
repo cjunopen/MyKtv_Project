@@ -1,4 +1,4 @@
-package com.cj.myktv.home.view.songlist;
+package com.cj.myktv.home.view;
 
 import android.content.Context;
 import android.os.Build;
@@ -13,6 +13,9 @@ import com.cj.lib_tools.util.ViewUtils;
 import com.cj.lib_tools.widget.GridBanner;
 import com.cj.myktv.home.R;
 import com.cj.myktv.lib_business.bean.Song;
+import com.cj.myktv.lib_db.KtvDbHelper;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -34,6 +37,12 @@ public class SongBanner extends GridBanner<Song> {
     }
 
     @Override
+    protected void init() {
+        super.init();
+        create2((int) KtvDbHelper.getInstance().getSongCount());
+    }
+
+    @Override
     public int getRow() {
         return 2;
     }
@@ -44,15 +53,15 @@ public class SongBanner extends GridBanner<Song> {
     }
 
     @Override
-    protected IViewListener<Song> getIItemViewListener() {
-        return new IViewListener<Song>() {
-            @Override
-            public void bindData(View view, Song data) {
-                ViewUtils.setClickRippleAnim(view.findViewById(R.id.iv_bg));
-                TextView textView = view.findViewById(R.id.song_name);
-                textView.setText(data.getName());
-            }
-        };
+    protected List<Song> loadData(int pos, int size) {
+        return Song.getSongList( KtvDbHelper.getInstance().getSongList(pos, size));
+    }
+
+    @Override
+    protected void bindItemViewData(View view, Song data) {
+        ViewUtils.setClickRippleAnim(view);
+        TextView textView = view.findViewById(R.id.song_name);
+        textView.setText(data.getName());
     }
 
     @Override
