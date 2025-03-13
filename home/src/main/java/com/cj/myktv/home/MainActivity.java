@@ -1,21 +1,18 @@
 package com.cj.myktv.home;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.AsyncListUtil;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cj.lib_tools.util.PermissionUtils;
+import com.cj.lib_tools.widget.GridBanner;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
 import com.cj.myktv.home.phantom.PhantomHelper;
-import com.cj.myktv.home.view.songlist.SongAdapter;
-import com.cj.myktv.home.view.songlist.SongAsycnListUtil;
+import com.cj.myktv.home.view.songlist.SongBanner;
+import com.cj.myktv.lib_business.bean.Song;
 import com.cj.myktv.lib_db.KtvDbHelper;
-import com.cj.myktv.lib_db.database.TblSong;
-import com.cj.myktv.lib_db.database.TblSongDao;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 
@@ -49,13 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void test() {
-        KtvDbHelper.getInstance().getTblSongDao(new KtvDbHelper.IDao<TblSongDao>() {
-            @Override
-            public void onGetDao(TblSongDao tblSongDao) {
-                TblSong song = tblSongDao.queryBuilder().where(TblSongDao.Properties.Id.eq(2L)).unique();
-                Timber.i("song: " + GsonUtils.toJson(song));
-            }
-        });
+
     }
 
     /**
@@ -86,16 +77,27 @@ public class MainActivity extends AppCompatActivity {
         mViewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mViewBinding.getRoot());
 
-        AsyncListUtil asyncListUtil = new SongAsycnListUtil(mViewBinding.songRv);
-        SongAdapter songAdapter = new SongAdapter();
-        songAdapter.setAsyncListUtil(asyncListUtil);
-        mViewBinding.songRv.setAsyncListUtil(asyncListUtil);
-        mViewBinding.songRv.setAdapter(songAdapter);
+        initSongBanner();
+//        AsyncListUtil asyncListUtil = new SongAsycnListUtil(mViewBinding.songRv);
+//        SongAdapter songAdapter = new SongAdapter();
+//        songAdapter.setAsyncListUtil(asyncListUtil);
+//        mViewBinding.songRv.setAsyncListUtil(asyncListUtil);
+//        mViewBinding.songRv.setAdapter(songAdapter);
 
         mViewBinding.btnMv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPhantomHelper.showOrHidePhantom();
+            }
+        });
+    }
+
+    private void initSongBanner() {
+        SongBanner banner = mViewBinding.songBanner;
+        banner.create2((int) KtvDbHelper.getInstance().getSongCount(), new GridBanner.IDataListener<Song>() {
+            @Override
+            public List<Song> loadData(int pos, int size) {
+                return Song.getSongList( KtvDbHelper.getInstance().getSongList(pos, size));
             }
         });
     }

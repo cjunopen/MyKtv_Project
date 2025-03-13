@@ -7,9 +7,9 @@
     android:background="@drawable/home_bg"
     tools:context=".MainActivity">
 
-    <com.cj.myktv.home.view.songlist.SongRecyclerView
-        android:id="@+id/song_rv"
-        android:layout_width="match_parent"
+    <com.cj.myktv.home.view.songlist.SongBanner
+        android:id="@+id/song_banner"
+        android:layout_width="880dp"
         android:layout_height="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

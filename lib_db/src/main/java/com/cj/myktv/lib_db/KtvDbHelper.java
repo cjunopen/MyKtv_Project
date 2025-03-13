@@ -4,9 +4,12 @@ import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.Utils;
 import com.cj.myktv.lib_db.database.DaoMaster;
 import com.cj.myktv.lib_db.database.DaoSession;
+import com.cj.myktv.lib_db.database.TblSong;
 import com.cj.myktv.lib_db.database.TblSongDao;
 
 import org.greenrobot.greendao.database.Database;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -35,16 +38,6 @@ public class KtvDbHelper {
         void onGetDao(T t);
     }
 
-    public void getTblSongDao(IDao<TblSongDao> iDao){
-//        Database db = mDevOpenHelper.getWritableDb();
-//        DaoSession daoSession = new DaoMaster(db).newSession();
-//        TblSongDao dao = daoSession.getTblSongDao();
-//        if (iDao != null) {
-//            iDao.onGetDao(dao);
-//        }
-//        db.close();
-    }
-
     public TblSongDao getTblSongDao(){
         if (mTblSongDao == null) {
             Database db = mDevOpenHelper.getWritableDb();
@@ -52,5 +45,17 @@ public class KtvDbHelper {
             mTblSongDao = daoSession.getTblSongDao();
         }
         return mTblSongDao;
+    }
+
+    public long getSongCount(){
+        return getTblSongDao().queryBuilder().count();
+    }
+
+    public List<TblSong> getSongList(int startIndex, int size){
+        List<TblSong> tblSongs =  KtvDbHelper.getInstance().getTblSongDao().queryBuilder()
+                .offset(startIndex)
+                .limit(size)
+                .list();
+        return tblSongs;
     }
 }

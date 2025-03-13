@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.AsyncListUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ConvertUtils;
@@ -62,7 +63,7 @@ public class SongRecyclerView extends RecyclerView {
         int spanCount = 2;
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount, GridLayoutManager.HORIZONTAL, false);
         setLayoutManager(layoutManager);
-        addItemDecoration(new GridSpacingItemDecoration(spanCount, ConvertUtils.dp2px(10), false));
+//        addItemDecoration(new GridSpacingItemDecoration(spanCount, ConvertUtils.dp2px(10), false));
 
         addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -75,5 +76,8 @@ public class SongRecyclerView extends RecyclerView {
                 }
             }
         });
+
+        PagerSnapHelper helper = new PagerSnapHelper();
+        helper.attachToRecyclerView(this);
     }
 }
