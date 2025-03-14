@@ -2,9 +2,6 @@ package com.cj.myktv.lib_db;
 
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.PathUtils;
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.Utils;
 import com.cj.myktv.lib_db.database.DaoMaster;
 import com.cj.myktv.lib_db.database.DaoSession;
 import com.cj.myktv.lib_db.database.TblSong;
@@ -51,28 +48,30 @@ public class KtvDbHelper {
         return mTblSongDao;
     }
 
-    public long getSongCount(){
-        return getSongCountByWord("");
+    public long querySongCount(){
+        return querySongCountBySpell("");
     }
 
-    public long getSongCountByWord(String word){
+    public long querySongCountBySpell(String spell){
         QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
-        if (!TextUtils.isEmpty(word)){
-            queryBuilder.where(TblSongDao.Properties.Spell.like("%" + word + "%"));
+        if (!TextUtils.isEmpty(spell)){
+            queryBuilder.where(TblSongDao.Properties.Spell.like("%" + spell + "%"));
         }
         return queryBuilder.count();
     }
 
-    public List<TblSong> getSongList(int startIndex, int size){
-        return querySongListByWord("", startIndex, size);
+    public List<TblSong> querySongList(int startIndex, int size){
+        return querySongListBySpell("", startIndex, size);
     }
 
-    public List<TblSong> querySongListByWord(String word, int startIndex, int size){
+    public List<TblSong> querySongListBySpell(String word, int startIndex, int size){
         QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
         if (!TextUtils.isEmpty(word)){
             queryBuilder.where(TblSongDao.Properties.Spell.like("%" + word + "%"));
         }
-        return queryBuilder.limit(size)
+        return queryBuilder
+                .offset(startIndex)
+                .limit(size)
                 .list();
     }
 }

@@ -7,17 +7,12 @@ import android.view.View;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.cj.lib_tools.util.PermissionUtils;
-import com.cj.lib_tools.widget.GridBanner;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
 import com.cj.myktv.home.phantom.PhantomHelper;
 import com.cj.myktv.home.view.SearcherBarView;
-import com.cj.myktv.home.view.SongBanner;
-import com.cj.myktv.lib_business.bean.Song;
-import com.cj.myktv.lib_db.KtvDbHelper;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 
-import java.sql.Time;
 import java.util.List;
 
 import timber.log.Timber;
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClickSearch(String word) {
                 Timber.i("onClickSearch: " + word);
-                mViewBinding.songBanner.refreshByWord(word);
+                mViewBinding.songBanner.refreshBySpell(word);
             }
         });
     }

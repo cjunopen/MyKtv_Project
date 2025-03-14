@@ -1,13 +1,13 @@
 package com.cj.myktv.home.view;
 
 import android.content.Context;
-import android.os.Build;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
 
 import com.cj.lib_tools.util.ViewUtils;
 import com.cj.lib_tools.widget.GridBanner;
@@ -24,7 +24,8 @@ import java.util.List;
  */
 public class SongBanner extends GridBanner<Song> {
 
-    private String mSearchWord = "";
+    private String mSearchSpell = "";
+    private int mDefaultColor = Color.GREEN;
 
     public SongBanner(Context context) {
         super(context);
@@ -41,7 +42,7 @@ public class SongBanner extends GridBanner<Song> {
     @Override
     protected void init() {
         super.init();
-        create2((int) KtvDbHelper.getInstance().getSongCount());
+        create2((int) KtvDbHelper.getInstance().querySongCount());
     }
 
     @Override
@@ -56,14 +57,23 @@ public class SongBanner extends GridBanner<Song> {
 
     @Override
     protected List<Song> loadData(int pos, int size) {
-        return Song.getSongList(KtvDbHelper.getInstance().querySongListByWord(mSearchWord, pos, size));
+        return Song.getSongList(KtvDbHelper.getInstance().querySongListBySpell(mSearchSpell, pos, size));
     }
 
     @Override
     protected void bindItemViewData(View view, Song data) {
         ViewUtils.setClickRippleAnim(view);
         TextView textView = view.findViewById(R.id.song_name);
-        textView.setText(data.getName());
+        setSongName(textView, data.getName(), mSearchSpell);
+    }
+
+    private void setSongName(TextView textView, String name, String word){
+        int index = name.toUpperCase().indexOf(word.toUpperCase());
+        SpannableStringBuilder ssb = new SpannableStringBuilder(name);
+        if (index >= 0 && index + word.length() <= name.length()) {
+            ssb.setSpan(new ForegroundColorSpan(mDefaultColor), index, index + word.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        }
+        textView.setText(ssb);
     }
 
     @Override
@@ -71,9 +81,9 @@ public class SongBanner extends GridBanner<Song> {
         return R.layout.item_song;
     }
 
-    public void refreshByWord(String word){
-        mSearchWord = word;
+    public void refreshBySpell(String spell){
+        mSearchSpell = spell;
         create();
-        create2((int) KtvDbHelper.getInstance().getSongCountByWord(word));
+        create2((int) KtvDbHelper.getInstance().querySongCountBySpell(spell));
     }
 }
