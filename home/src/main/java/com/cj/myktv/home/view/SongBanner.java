@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class SongBanner extends GridBanner<Song> {
 
+    private String mSearchWord = "";
+
     public SongBanner(Context context) {
         super(context);
     }
@@ -54,7 +56,7 @@ public class SongBanner extends GridBanner<Song> {
 
     @Override
     protected List<Song> loadData(int pos, int size) {
-        return Song.getSongList( KtvDbHelper.getInstance().getSongList(pos, size));
+        return Song.getSongList(KtvDbHelper.getInstance().querySongListByWord(mSearchWord, pos, size));
     }
 
     @Override
@@ -67,5 +69,11 @@ public class SongBanner extends GridBanner<Song> {
     @Override
     protected int getItemViewLayoutId() {
         return R.layout.item_song;
+    }
+
+    public void refreshByWord(String word){
+        mSearchWord = word;
+        create();
+        create2((int) KtvDbHelper.getInstance().getSongCountByWord(word));
     }
 }

@@ -10,12 +10,14 @@ import com.cj.lib_tools.util.PermissionUtils;
 import com.cj.lib_tools.widget.GridBanner;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
 import com.cj.myktv.home.phantom.PhantomHelper;
+import com.cj.myktv.home.view.SearcherBarView;
 import com.cj.myktv.home.view.SongBanner;
 import com.cj.myktv.lib_business.bean.Song;
 import com.cj.myktv.lib_db.KtvDbHelper;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 
+import java.sql.Time;
 import java.util.List;
 
 import timber.log.Timber;
@@ -77,22 +79,19 @@ public class MainActivity extends AppCompatActivity {
         mViewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mViewBinding.getRoot());
 
-        initSongBanner();
-//        AsyncListUtil asyncListUtil = new SongAsycnListUtil(mViewBinding.songRv);
-//        SongAdapter songAdapter = new SongAdapter();
-//        songAdapter.setAsyncListUtil(asyncListUtil);
-//        mViewBinding.songRv.setAsyncListUtil(asyncListUtil);
-//        mViewBinding.songRv.setAdapter(songAdapter);
-
         mViewBinding.btnMv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPhantomHelper.showOrHidePhantom();
             }
         });
-    }
 
-    private void initSongBanner() {
-        SongBanner banner = mViewBinding.songBanner;
+        mViewBinding.searcher.setISearcherListener(new SearcherBarView.ISearcherListener() {
+            @Override
+            public void onClickSearch(String word) {
+                Timber.i("onClickSearch: " + word);
+                mViewBinding.songBanner.refreshByWord(word);
+            }
+        });
     }
 }

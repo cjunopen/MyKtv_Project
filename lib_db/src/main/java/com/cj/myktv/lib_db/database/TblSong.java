@@ -20,10 +20,14 @@ public class TblSong {
     @Property(nameInDb = "name")
     private String name;
 
-    @Generated(hash = 1080697705)
-    public TblSong(int id, String name) {
+    @Property(nameInDb = "spell")
+    private String spell;
+
+    @Generated(hash = 742081358)
+    public TblSong(int id, String name, String spell) {
         this.id = id;
         this.name = name;
+        this.spell = spell;
     }
 
     @Generated(hash = 411822875)
@@ -44,5 +48,13 @@ public class TblSong {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSpell() {
+        return this.spell;
+    }
+
+    public void setSpell(String spell) {
+        this.spell = spell;
     }
 }
