@@ -15,6 +15,7 @@ public class Song extends TblSong {
     public Song(TblSong tblSong) {
         setId(tblSong.getId());
         setName(tblSong.getName());
+        setSpell(tblSong.getSpell());
     }
 
     public static List<Song> getSongList(List<TblSong> tblSongs){

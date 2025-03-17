@@ -40,12 +40,6 @@ public class SongBanner extends GridBanner<Song> {
     }
 
     @Override
-    protected void init() {
-        super.init();
-        create2((int) KtvDbHelper.getInstance().querySongCount());
-    }
-
-    @Override
     public int getRow() {
         return 2;
     }
@@ -53,11 +47,6 @@ public class SongBanner extends GridBanner<Song> {
     @Override
     public int getCol() {
         return 4;
-    }
-
-    @Override
-    protected List<Song> loadData(int pos, int size) {
-        return Song.getSongList(KtvDbHelper.getInstance().querySongListBySpell(mSearchSpell, pos, size));
     }
 
     @Override
@@ -79,11 +68,5 @@ public class SongBanner extends GridBanner<Song> {
     @Override
     protected int getItemViewLayoutId() {
         return R.layout.item_song;
-    }
-
-    public void refreshBySpell(String spell){
-        mSearchSpell = spell;
-        create();
-        create2((int) KtvDbHelper.getInstance().querySongCountBySpell(spell));
     }
 }

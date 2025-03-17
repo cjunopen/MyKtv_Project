@@ -48,30 +48,73 @@ public class KtvDbHelper {
         return mTblSongDao;
     }
 
+    /**
+     * 歌曲总数
+     * @return
+     */
     public long querySongCount(){
-        return querySongCountBySpell("");
+        return getTblSongDao().queryBuilder().count();
     }
 
-    public long querySongCountBySpell(String spell){
-        QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
-        if (!TextUtils.isEmpty(spell)){
-            queryBuilder.where(TblSongDao.Properties.Spell.like("%" + spell + "%"));
-        }
-        return queryBuilder.count();
-    }
-
+    /**
+     * 查询歌曲列表
+     * @param startIndex
+     * @param size
+     * @return
+     */
     public List<TblSong> querySongList(int startIndex, int size){
-        return querySongListBySpell("", startIndex, size);
+        return getTblSongDao().queryBuilder().offset(startIndex).limit(size).list();
     }
 
-    public List<TblSong> querySongListBySpell(String word, int startIndex, int size){
+    /**
+     * 根据关键字搜索歌曲
+     * @param word
+     * @param startIndex
+     * @param size
+     * @return
+     */
+    public List<TblSong> querySongListByKeyword(String word, int startIndex, int size){
         QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
         if (!TextUtils.isEmpty(word)){
-            queryBuilder.where(TblSongDao.Properties.Spell.like("%" + word + "%"));
+            queryBuilder.where(TblSongDao.Properties.Name.like("%" + word + "%"));
         }
         return queryBuilder
                 .offset(startIndex)
                 .limit(size)
                 .list();
+    }
+
+    /**
+     * 关键字搜索，歌曲总数
+     * @return
+     */
+    public long querySongCountByKeyword(String keyword){
+        return getTblSongDao().queryBuilder().where(TblSongDao.Properties.Name.like("%" + keyword + "%")).count();
+    }
+
+    /**
+     * 首拼搜索，歌曲列表
+     * @param spell
+     * @param startIndex
+     * @param size
+     * @return
+     */
+    public List<TblSong> querySongListBySpell(String spell, int startIndex, int size){
+        QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
+        if (!TextUtils.isEmpty(spell)){
+            queryBuilder.where(TblSongDao.Properties.Spell.like("%" + spell + "%"));
+        }
+        return queryBuilder
+                .offset(startIndex)
+                .limit(size)
+                .list();
+    }
+
+    /**
+     * 首拼搜索，歌曲总数
+     * @return
+     */
+    public long querySongCountBySpell(String spell){
+        return getTblSongDao().queryBuilder().where(TblSongDao.Properties.Spell.like("%" + spell + "%")).count();
     }
 }

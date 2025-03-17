@@ -8,8 +8,13 @@ import android.view.View;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cj.lib_tools.util.PermissionUtils;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
+import com.cj.myktv.home.manager.search.BaseSearchListener;
+import com.cj.myktv.home.manager.search.DefaultSearchListener;
+import com.cj.myktv.home.manager.search.FirstSpellSearchListener;
+import com.cj.myktv.home.manager.search.KeywordSearchListener;
 import com.cj.myktv.home.phantom.PhantomHelper;
 import com.cj.myktv.home.view.SearcherBarView;
+import com.cj.myktv.lib_db.database.TblSong;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private PhantomHelper mPhantomHelper;
 
+    private BaseSearchListener mKeywordSearchListener, mDefaultSearchListener, mSpellSearchListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         mPhantomHelper = new PhantomHelper(this);
         mPhantomHelper.hidePhantom();
+
     }
 
     @Override
@@ -81,11 +89,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mKeywordSearchListener = new KeywordSearchListener();
+        mDefaultSearchListener = new DefaultSearchListener();
+        mSpellSearchListener = new FirstSpellSearchListener();
+        mViewBinding.songBanner.refresh(mDefaultSearchListener);
+
         mViewBinding.searcher.setISearcherListener(new SearcherBarView.ISearcherListener() {
             @Override
             public void onClickSearch(String word) {
                 Timber.i("onClickSearch: " + word);
-                mViewBinding.songBanner.refreshBySpell(word);
+                mSpellSearchListener.setInput(word);
+                mViewBinding.songBanner.refresh(mSpellSearchListener);
             }
         });
     }
