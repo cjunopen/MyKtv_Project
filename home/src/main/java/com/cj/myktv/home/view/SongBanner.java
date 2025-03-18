@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.cj.lib_tools.util.ViewUtils;
 import com.cj.lib_tools.widget.GridBanner;
 import com.cj.myktv.home.R;
+import com.cj.myktv.home.interfaces.IHighlightName;
 import com.cj.myktv.lib_business.bean.Song;
 import com.cj.myktv.lib_db.KtvDbHelper;
 
@@ -24,8 +25,7 @@ import java.util.List;
  */
 public class SongBanner extends GridBanner<Song> {
 
-    private String mSearchSpell = "";
-    private int mDefaultColor = Color.GREEN;
+    private IHighlightName mIHighlightName;
 
     public SongBanner(Context context) {
         super(context);
@@ -53,16 +53,20 @@ public class SongBanner extends GridBanner<Song> {
     protected void bindItemViewData(View view, Song data) {
         ViewUtils.setClickRippleAnim(view);
         TextView textView = view.findViewById(R.id.song_name);
-        setSongName(textView, data.getName(), mSearchSpell);
+        setSongName(textView, data);
     }
 
-    private void setSongName(TextView textView, String name, String word){
-        int index = name.toUpperCase().indexOf(word.toUpperCase());
-        SpannableStringBuilder ssb = new SpannableStringBuilder(name);
-        if (index >= 0 && index + word.length() <= name.length()) {
-            ssb.setSpan(new ForegroundColorSpan(mDefaultColor), index, index + word.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        }
-        textView.setText(ssb);
+    private void setSongName(TextView textView, Song song){
+//        if (mIHighlightName != null) {
+//            if (mIHighlightName.highlightName(textView, song)){
+//                return;
+//            }
+//        }
+        textView.setText(song.getName());
+    }
+
+    public void setIHighlightName(IHighlightName IHighlightName) {
+        mIHighlightName = IHighlightName;
     }
 
     @Override

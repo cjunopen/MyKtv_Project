@@ -1,6 +1,7 @@
 package com.cj.myktv.home.manager.search;
 
 import com.cj.lib_tools.interfaces.IDataListener;
+import com.cj.myktv.home.interfaces.IHighlightName;
 import com.cj.myktv.lib_business.bean.Song;
 import com.cj.myktv.lib_db.database.TblSong;
 
@@ -9,7 +10,7 @@ import com.cj.myktv.lib_db.database.TblSong;
  * @Author: CJ
  * @CreateDate: 2025/3/17 20:57
  */
-public abstract class BaseSearchListener implements IDataListener<Song> {
+public abstract class BaseSearchListener implements IDataListener<Song>, IHighlightName {
     protected String mInput;
 
     public void setInput(String input) {

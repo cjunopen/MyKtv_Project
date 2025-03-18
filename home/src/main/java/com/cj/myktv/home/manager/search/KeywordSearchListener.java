@@ -1,5 +1,7 @@
 package com.cj.myktv.home.manager.search;
 
+import android.widget.TextView;
+
 import com.cj.myktv.lib_business.bean.Song;
 import com.cj.myktv.lib_db.KtvDbHelper;
 import com.cj.myktv.lib_db.database.TblSong;
@@ -21,5 +23,10 @@ public class KeywordSearchListener extends BaseSearchListener {
     @Override
     public List<Song> loadData(int pos, int size) {
         return Song.getSongList(KtvDbHelper.getInstance().querySongListByKeyword(mInput, pos, size));
+    }
+
+    @Override
+    public boolean highlightName(TextView textView, Song song) {
+        return false;
     }
 }

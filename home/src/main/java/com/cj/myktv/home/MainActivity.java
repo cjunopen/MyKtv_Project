@@ -3,6 +3,7 @@ package com.cj.myktv.home;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -17,6 +18,8 @@ import com.cj.myktv.home.view.SearcherBarView;
 import com.cj.myktv.lib_db.database.TblSong;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -92,15 +95,26 @@ public class MainActivity extends AppCompatActivity {
         mKeywordSearchListener = new KeywordSearchListener();
         mDefaultSearchListener = new DefaultSearchListener();
         mSpellSearchListener = new FirstSpellSearchListener();
-        mViewBinding.songBanner.refresh(mDefaultSearchListener);
+
+        bannerSetDefault();
 
         mViewBinding.searcher.setISearcherListener(new SearcherBarView.ISearcherListener() {
             @Override
             public void onClickSearch(String word) {
                 Timber.i("onClickSearch: " + word);
-                mSpellSearchListener.setInput(word);
-                mViewBinding.songBanner.refresh(mSpellSearchListener);
+                if (TextUtils.isEmpty(word)){
+                    bannerSetDefault();
+                }else {
+                    mSpellSearchListener.setInput(word);
+                    mViewBinding.songBanner.refresh(mSpellSearchListener);
+                    mViewBinding.songBanner.setIHighlightName(mSpellSearchListener);
+                }
             }
         });
+    }
+
+    private void bannerSetDefault(){
+        mViewBinding.songBanner.setIHighlightName(mDefaultSearchListener);
+        mViewBinding.songBanner.refresh(mDefaultSearchListener);
     }
 }
