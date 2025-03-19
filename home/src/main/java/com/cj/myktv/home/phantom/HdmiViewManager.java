@@ -158,4 +158,11 @@ public class HdmiViewManager {
             }, mDelay);
         }
     }
+
+    /**
+     * 显示副屏内容
+     */
+    public void showSecondDisplay(){
+        hidePhantom();
+    }
 }

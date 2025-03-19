@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
 
         mHdmiViewManager = new HdmiViewManager(this);
-        mHdmiViewManager.hidePhantom();
+        mHdmiViewManager.showSecondDisplay();
 
     }
 
