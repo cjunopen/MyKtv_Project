@@ -24,6 +24,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btn_switch_ori_accompany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="原唱/伴唱"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.cj.myktv.home.view.SearcherBarView
         android:id="@+id/searcher"
         android:layout_width="wrap_content"

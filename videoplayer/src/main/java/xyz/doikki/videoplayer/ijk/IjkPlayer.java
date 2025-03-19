@@ -9,8 +9,11 @@ import android.text.TextUtils;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.misc.ITrackInfo;
@@ -44,6 +47,13 @@ public class IjkPlayer extends AbstractPlayer implements IMediaPlayer.OnErrorLis
         mMediaPlayer.setOnPreparedListener(this);
         mMediaPlayer.setOnVideoSizeChangedListener(this);
         mMediaPlayer.setOnNativeInvokeListener(this);
+    }
+
+    /**
+     * 切到目标音轨
+     */
+    public void selectTrack(int track){
+        mMediaPlayer.selectTrack(track);
     }
 
 
@@ -265,5 +275,9 @@ public class IjkPlayer extends AbstractPlayer implements IMediaPlayer.OnErrorLis
     @Override
     public boolean onNativeInvoke(int what, Bundle args) {
         return true;
+    }
+
+    public IjkTrackInfo[] getTrackInfo() {
+        return mMediaPlayer.getTrackInfo();
     }
 }

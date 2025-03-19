@@ -9,6 +9,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cj.lib_tools.util.PermissionUtils;
 import com.cj.myktv.home.databinding.ActivityMainBinding;
+import com.cj.myktv.home.manager.PlayCtrlManager;
 import com.cj.myktv.home.manager.search.BaseSearchListener;
 import com.cj.myktv.home.manager.search.DefaultSearchListener;
 import com.cj.myktv.home.manager.search.FirstSpellSearchListener;
@@ -108,8 +109,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mViewBinding.btnSwitchOriAccompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayCtrlManager.getInstance().switchOriOrAccompany();
+            }
+        });
     }
 
+    /**
+     * 歌曲列表初始化
+     */
     private void bannerSetDefault(){
         mViewBinding.songBanner.setIHighlightName(mDefaultSearchListener);
         mViewBinding.songBanner.refresh(mDefaultSearchListener);

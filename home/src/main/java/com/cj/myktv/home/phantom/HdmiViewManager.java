@@ -8,6 +8,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.cj.lib_tools.util.rxjava.RxjavaUtils;
 import com.cj.myktv.home.R;
+import com.cj.myktv.home.manager.PlayCtrlManager;
 import com.cj.myktv.videoplayer.view.IjkVideoView;
 
 import java.util.concurrent.TimeUnit;
@@ -73,6 +74,8 @@ public class HdmiViewManager {
         controller.addDefaultControlComponent("标题", false);
         videoView.setVideoController(controller);
         videoView.start();
+
+        PlayCtrlManager.getInstance().setIjkVideoView(videoView);
     }
 
     private void initEmitter(){
