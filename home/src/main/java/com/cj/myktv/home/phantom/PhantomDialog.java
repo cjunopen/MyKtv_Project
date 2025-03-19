@@ -34,7 +34,9 @@ public class PhantomDialog extends BaseDialog {
     }
 
     public void addView(View view){
-        mBinding.container.addView(view);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mBinding.container.addView(view, layoutParams);
     }
 
     public void removeView(){

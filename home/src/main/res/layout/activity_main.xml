@@ -31,7 +31,7 @@
         android:text="原唱/伴唱"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/btn_mv" />
 
     <com.cj.myktv.home.view.SearcherBarView
         android:id="@+id/searcher"
