@@ -13,13 +13,10 @@ import com.cj.myktv.home.manager.search.BaseSearchListener;
 import com.cj.myktv.home.manager.search.DefaultSearchListener;
 import com.cj.myktv.home.manager.search.FirstSpellSearchListener;
 import com.cj.myktv.home.manager.search.KeywordSearchListener;
-import com.cj.myktv.home.phantom.PhantomHelper;
+import com.cj.myktv.home.phantom.HdmiViewManager;
 import com.cj.myktv.home.view.SearcherBarView;
-import com.cj.myktv.lib_db.database.TblSong;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mViewBinding;
 
-    private PhantomHelper mPhantomHelper;
+    private HdmiViewManager mHdmiViewManager;
 
     private BaseSearchListener mKeywordSearchListener, mDefaultSearchListener, mSpellSearchListener;
 
@@ -42,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
-        mPhantomHelper = new PhantomHelper(this);
-        mPhantomHelper.hidePhantom();
+        mHdmiViewManager = new HdmiViewManager(this);
+        mHdmiViewManager.hidePhantom();
 
     }
 
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         mViewBinding.btnMv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPhantomHelper.showOrHidePhantom();
+                mHdmiViewManager.showOrHidePhantom();
             }
         });
 

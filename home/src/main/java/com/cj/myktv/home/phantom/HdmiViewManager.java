@@ -8,6 +8,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.cj.lib_tools.util.rxjava.RxjavaUtils;
 import com.cj.myktv.home.R;
+import com.cj.myktv.videoplayer.view.IjkVideoView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,17 +22,17 @@ import xyz.doikki.videocontroller.StandardVideoController;
 import xyz.doikki.videoplayer.player.VideoView;
 
 /**
- * @Description: 幻影功能实现
+ * @Description: MV展示在副屏或幻影
  * @Author: CJ
  * @CreateDate: 2025/3/11 下午 3:11:42
  */
-public class PhantomHelper {
+public class HdmiViewManager {
 
     private SecondDisplayManager mSecondDisplayManager;
 
     private PhantomDialog mPhantomDialog;
 
-    private View mSecondDisplayView;
+    private View mHdmiView;
 
     private int mDelay = 100;
 
@@ -42,7 +43,7 @@ public class PhantomHelper {
         HIDE
     }
 
-    public PhantomHelper(Activity activity) {
+    public HdmiViewManager(Activity activity) {
         mSecondDisplayManager = new SecondDisplayManager(activity);
 
         mPhantomDialog = new PhantomDialog(activity);
@@ -54,15 +55,19 @@ public class PhantomHelper {
             }
         });
 
-        initSecondDisplayView(activity);
+        initHdmiView(activity);
 
         initEmitter();
     }
 
-    private void initSecondDisplayView(Context context){
-        mSecondDisplayView = View.inflate(context, R.layout.view_second_display, null);
+    public IjkVideoView getIjkVideoView(){
+        return mHdmiView.findViewById(R.id.player);
+    }
 
-        VideoView videoView = mSecondDisplayView.findViewById(R.id.player);
+    private void initHdmiView(Context context){
+        mHdmiView = View.inflate(context, R.layout.view_second_display, null);
+
+        IjkVideoView videoView = mHdmiView.findViewById(R.id.player);
         videoView.setUrl("/sdcard/Download/00001752.ts");
         StandardVideoController controller = new StandardVideoController(context);
         controller.addDefaultControlComponent("标题", false);
@@ -126,13 +131,13 @@ public class PhantomHelper {
      */
     public void showPhantom(){
         if (!mSecondDisplayManager.isEmpty()){
-            mSecondDisplayManager.removeView(mSecondDisplayView);
+            mSecondDisplayManager.removeView(mHdmiView);
 
             ThreadUtils.runOnUiThreadDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mPhantomDialog.show();
-                    mPhantomDialog.addView(mSecondDisplayView);
+                    mPhantomDialog.addView(mHdmiView);
                 }
             }, mDelay);
         }
@@ -148,7 +153,7 @@ public class PhantomHelper {
             ThreadUtils.runOnUiThreadDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mSecondDisplayManager.addView(mSecondDisplayView);
+                    mSecondDisplayManager.addView(mHdmiView);
                 }
             }, mDelay);
         }
