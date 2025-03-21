@@ -10,6 +10,7 @@ import com.cj.myktv.lib_db.database.TblSongDao;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +54,12 @@ public class KtvDbHelper {
      * @return
      */
     public long querySongCount(){
-        return getTblSongDao().queryBuilder().count();
+        try {
+            return getTblSongDao().queryBuilder().count();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -63,7 +69,12 @@ public class KtvDbHelper {
      * @return
      */
     public List<TblSong> querySongList(int startIndex, int size){
-        return getTblSongDao().queryBuilder().offset(startIndex).limit(size).list();
+        try {
+            return getTblSongDao().queryBuilder().offset(startIndex).limit(size).list();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -74,14 +85,19 @@ public class KtvDbHelper {
      * @return
      */
     public List<TblSong> querySongListByKeyword(String word, int startIndex, int size){
-        QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
-        if (!TextUtils.isEmpty(word)){
-            queryBuilder.where(TblSongDao.Properties.Name.like("%" + word + "%"));
+        if (TextUtils.isEmpty(word)){
+            return querySongList(startIndex, size);
         }
-        return queryBuilder
-                .offset(startIndex)
-                .limit(size)
-                .list();
+        try {
+            return getTblSongDao().queryBuilder()
+                    .where(TblSongDao.Properties.Name.like("%" + word + "%"))
+                    .offset(startIndex)
+                    .limit(size)
+                    .list();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -89,7 +105,12 @@ public class KtvDbHelper {
      * @return
      */
     public long querySongCountByKeyword(String keyword){
-        return getTblSongDao().queryBuilder().where(TblSongDao.Properties.Name.like("%" + keyword + "%")).count();
+        try {
+            return getTblSongDao().queryBuilder().where(TblSongDao.Properties.Name.like("%" + keyword + "%")).count();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -100,14 +121,19 @@ public class KtvDbHelper {
      * @return
      */
     public List<TblSong> querySongListBySpell(String spell, int startIndex, int size){
-        QueryBuilder queryBuilder = getTblSongDao().queryBuilder();
-        if (!TextUtils.isEmpty(spell)){
-            queryBuilder.where(TblSongDao.Properties.Spell.like("%" + spell + "%"));
+        if (TextUtils.isEmpty(spell)){
+            return querySongList(startIndex, size);
         }
-        return queryBuilder
-                .offset(startIndex)
-                .limit(size)
-                .list();
+        try {
+            return getTblSongDao().queryBuilder()
+                    .where(TblSongDao.Properties.Spell.like("%" + spell + "%"))
+                    .offset(startIndex)
+                    .limit(size)
+                    .list();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -115,6 +141,11 @@ public class KtvDbHelper {
      * @return
      */
     public long querySongCountBySpell(String spell){
-        return getTblSongDao().queryBuilder().where(TblSongDao.Properties.Spell.like("%" + spell + "%")).count();
+        try {
+            return getTblSongDao().queryBuilder().where(TblSongDao.Properties.Spell.like("%" + spell + "%")).count();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

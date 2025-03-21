@@ -37,10 +37,10 @@ public class GreenDaoContext  extends ContextWrapper {
      */
     @Override
     public File getDatabasePath(String dbName) {
-
         String dbPath = StringUtils.format("%s/databases/%s", PathUtils.getExternalAppFilesPath(), dbName);
         File dbFile = new File(dbPath);
-        return dbFile.exists() ? dbFile : super.getDatabasePath(dbName);
+        FileUtils.createOrExistsFile(dbFile);
+        return dbFile;
     }
 
     /**
