@@ -50,7 +50,13 @@ public class SongBanner extends GridBanner<Song> {
     }
 
     @Override
-    protected void bindItemViewData(View view, Song data) {
+    protected void init() {
+        super.init();
+        setCanLoop(false);
+    }
+
+    @Override
+    protected void bindItemViewData(View view, Song data, int pos) {
         ViewUtils.setClickRippleAnim(view);
         TextView textView = view.findViewById(R.id.song_name);
         setSongName(textView, data);
