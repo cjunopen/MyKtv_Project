@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.library'
 }
-apply from: "../../ShareLib/gradle/android.gradle"
-apply from: "../../ShareLib/gradle/dependencies.gradle"
+apply from: "../main/gradle/android.gradle"
+apply from: "../main/gradle/dependencies.gradle"
 
 dependencies {
     implementation project(':lib_tools')

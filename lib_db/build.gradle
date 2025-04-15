@@ -3,8 +3,8 @@ plugins {
     id 'org.greenrobot.greendao'
 }
 
-apply from: "../../ShareLib/gradle/android.gradle"
-apply from: "../../ShareLib/gradle/dependencies.gradle"
+apply from: "../main/gradle/android.gradle"
+apply from: "../main/gradle/dependencies.gradle"
 greendao {
     schemaVersion 1
     daoPackage 'com.cj.myktv.lib_db.database'

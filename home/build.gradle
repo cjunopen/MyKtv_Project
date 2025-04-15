@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
 }
-apply from: "../../ShareLib/gradle/android.gradle"
-apply from: "../../ShareLib/gradle/dependencies.gradle"
+apply from: "../main/gradle/android.gradle"
+apply from: "../main/gradle/dependencies.gradle"
 
 android {
     defaultConfig {
@@ -31,5 +31,5 @@ dependencies {
 
     implementation project(':lib_db')
 
-    implementation project(path: ':lib_business')
+    implementation project(':lib_business')
 }
